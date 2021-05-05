@@ -13,6 +13,7 @@ import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.jmcomic.ImageUtil.CacheHelper;
 import com.jmcomic.ImageUtil.DownloadThread;
+import com.jmcomic.ImageUtil.FileUtil;
 
 import java.io.FileNotFoundException;
 import java.util.Map;
@@ -24,9 +25,14 @@ public class JMImageModule extends ReactContextBaseJavaModule {
     private static final String DURATION_SHORT_KEY = "SHORT";
     private static final String DURATION_LONG_KEY = "LONG";
 
+    private FileUtil fileUtil;
+    private CacheHelper cacheHelper;
+
     public JMImageModule(ReactApplicationContext context) {
         super(context);
         reactContext = context;
+        fileUtil = new FileUtil(context);
+        cacheHelper = new CacheHelper(fileUtil);
     }
 
     @Override
@@ -50,9 +56,9 @@ public class JMImageModule extends ReactContextBaseJavaModule {
     @ReactMethod
     public void getImageInfo(String url,Boolean shouldScramble, Promise promise) {
         try {
-            CacheHelper.ImageInfo info = CacheHelper.getCachedImageByUrl(url);
+            CacheHelper.ImageInfo info = cacheHelper.getCachedImageByUrl(url);
             if(info == null) {
-                DownloadThread thread = new DownloadThread(url, shouldScramble, promise);
+                DownloadThread thread = new DownloadThread(url, shouldScramble, promise, cacheHelper);
                 thread.start();
             } else {
                 promise.resolve(info.toWritable());

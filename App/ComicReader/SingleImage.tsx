@@ -1,9 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import {Image, StyleSheet, Dimensions} from 'react-native';
 import {NativeModules} from 'react-native';
+// import FastImage from 'react-native-fast-image';
 import {getPhotoUrl} from '../API/BasicRequest';
-import JMImage from '../Comic/JMImage';
-
 const ScrambleId = 220980;
 
 interface ImageInfo {
@@ -45,11 +44,11 @@ function SingleImage({album, photo}) {
       height: size.height,
     },
   });
-  const shouldScramble = parseInt(album) > ScrambleId;
+  const shouldScramble = parseInt(album, 10) > ScrambleId;
   useEffect(() => {
     requestDecodeImage(photo_url, shouldScramble)
       .then((info) => {
-        console.log(album, shouldScramble);
+        console.log(album, shouldScramble, info);
         console.log('scramble image', info);
         info.filePath = 'file://' + info.filePath;
         setBase(info.filePath);
@@ -64,6 +63,14 @@ function SingleImage({album, photo}) {
       });
   }, [album, photo_url, shouldScramble, width]);
   return (
+    // <FastImage
+    //   style={style.image}
+    //   source={{
+    //     uri: filePath,
+    //     priority: FastImage.priority.normal,
+    //   }}
+    //   resizeMode={FastImage.resizeMode.contain}
+    // />
     <Image
       style={style.image}
       source={{

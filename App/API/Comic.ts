@@ -3,16 +3,15 @@ import {API_ABILITY} from './APIConstant';
 
 const GetLatestComic = async (): Promise<Array<any>> => {
   const latest = await API.GET(API_ABILITY.API_COMIC_LATEST).catch(() => {
-      return [];
-    },
-  );
+    return [];
+  });
   return latest;
 };
 
 const GetComicDetail = async (albumId: string): Promise<any> => {
   function sortBy(name: string, name_second: string) {
-    const number = parseInt(name.split('.')[0]);
-    const secondNum = parseInt(name_second.split('.')[0]);
+    const number = parseInt(name.split('.')[0], 10);
+    const secondNum = parseInt(name_second.split('.')[0], 10);
     return number - secondNum;
   }
   const detail = await API.GET(API_ABILITY.API_COMIC_DETAIL, {
@@ -47,4 +46,12 @@ const GetComicChapter = async (series_id: string) => {
   return detail;
 };
 
-export {GetLatestComic, GetComicDetail, GetComicChapter};
+const getRandomComic = async () => {
+  const random = await API.GET(API_ABILITY.API_COMIC_LATEST).catch((err) => {
+    console.error(err);
+    return [];
+  });
+  return random;
+};
+
+export {GetLatestComic, GetComicDetail, GetComicChapter, getRandomComic};

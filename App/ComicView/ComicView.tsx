@@ -3,8 +3,7 @@ import {SafeAreaView, FlatList, StyleSheet} from 'react-native';
 import {useEffect, useState} from 'react';
 import {GetLatestComic} from '../API/Comic';
 import ComicItem from './ComicItem';
-import {getAlbumPostUrl} from '../API/BasicRequest';
-
+import {getAlbumPosterUrl} from '../API/BasicRequest';
 
 const styles = StyleSheet.create({
   container: {
@@ -30,7 +29,7 @@ function LatestComicScreen({navigation}) {
     GetLatestComic().then((res) => {
       console.log('latest >>> ', res);
       res.forEach((comic) => {
-        comic.image = getAlbumPostUrl(comic.id);
+        comic.image = getAlbumPosterUrl(comic.id);
       });
       // @ts-ignore
       setData(res);

@@ -1,35 +1,40 @@
 package com.jmcomic.ImageUtil;
 
+import android.content.Context;
 import android.os.Environment;
 
 import java.io.File;
 import java.io.IOException;
 
 public class FileUtil {
-    static String  SD_PATH =  Environment.getExternalStorageDirectory().getPath();
+    public String  SD_PATH = "";
 
     static String APPLICATION_BASE = "/JMComic";
 
     static String DOWNLOAD_BASE = "/";
 
-    static String getSdPath() {
+    public String getSdPath() {
         return SD_PATH;
     }
 
-    static String getApplicationBase() {
+    public String getApplicationBase() {
         return SD_PATH + APPLICATION_BASE;
     }
 
-    static String getDownloadBase() {
+    public String getDownloadBase() {
         return SD_PATH + APPLICATION_BASE + DOWNLOAD_BASE;
     }
 
-    private static void createBaseDir() {
+    public FileUtil(Context context) {
+        SD_PATH = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES).getAbsolutePath();
+    }
+
+    public void createBaseDir() {
         File dir = new File(SD_PATH + APPLICATION_BASE );
         dir.mkdir();
     }
 
-    public static Boolean createDir(String dirName) {
+    public Boolean createDir(String dirName) {
         if(!isFileOrDirExist(APPLICATION_BASE)) {
             createBaseDir();
         }
@@ -43,7 +48,7 @@ public class FileUtil {
         return file.exists();
     }
 
-    static File createFile(String fullPath) throws IOException {
+    public File createFile(String fullPath) throws IOException {
         if(!isFileOrDirExist(APPLICATION_BASE)) {
             createBaseDir();
         }

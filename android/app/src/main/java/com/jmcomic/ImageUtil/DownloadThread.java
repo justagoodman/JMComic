@@ -13,10 +13,12 @@ public class DownloadThread {
     private final String url;
     private final Promise promise;
     private final Boolean shouldScramble;
-    public DownloadThread(String url, Boolean shouldScramble, Promise promise) {
+    private CacheHelper cacheHelper;
+    public DownloadThread(String url, Boolean shouldScramble, Promise promise, CacheHelper cacheHelper) {
         this.url = url;
         this.promise = promise;
         this.shouldScramble = shouldScramble;
+        this.cacheHelper = cacheHelper;
     };
     public void internalRun() {
         try {
@@ -24,7 +26,7 @@ public class DownloadThread {
             if(shouldScramble) {
                 image = ImageScrambler.toRaw(image);
             }
-            CacheHelper.ImageInfo info = CacheHelper.cacheBitMapToFile(image, url);
+            CacheHelper.ImageInfo info = cacheHelper.cacheBitMapToFile(image, url);
             WritableMap map = info.toWritable();
             promise.resolve(map);
         }catch (Exception e) {

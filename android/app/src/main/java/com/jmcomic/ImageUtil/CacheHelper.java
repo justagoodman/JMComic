@@ -18,7 +18,9 @@ import java.util.regex.Pattern;
 
 public class CacheHelper {
 
-    static String  CACHE_BASE_DIR = FileUtil.getApplicationBase() + "/.nomedia/";
+    private FileUtil fileUtil;
+
+    private String CACHE_BASE_DIR = "";
 
     public static class ImageInfo {
         double width;
@@ -40,7 +42,12 @@ public class CacheHelper {
         }
     }
 
-    public static String getCacheBaseDir() {
+    public CacheHelper(FileUtil util) {
+        fileUtil = util;
+        CACHE_BASE_DIR = util.getApplicationBase() + "/.nomedia/";
+    }
+
+    public String getCacheBaseDir() {
         return CACHE_BASE_DIR;
     }
 
@@ -58,14 +65,14 @@ public class CacheHelper {
         return fileName;
     }
 
-    static ImageInfo cacheBitMapToFile(Bitmap bitmapToSave, String url) throws IOException {
-        if(!FileUtil.isFileOrDirExist(CACHE_BASE_DIR)) {
-            FileUtil.createDir(CACHE_BASE_DIR);
+    public ImageInfo cacheBitMapToFile(Bitmap bitmapToSave, String url) throws IOException {
+        if(!fileUtil.isFileOrDirExist(CACHE_BASE_DIR)) {
+            fileUtil.createDir(CACHE_BASE_DIR);
         }
         String filename = urlToFilename(url);
         String fullPath = CACHE_BASE_DIR + filename;
 
-        File f1 = FileUtil.createFile(fullPath);
+        File f1 = fileUtil.createFile(fullPath);
         BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(f1));
 //        ByteBuffer buffer = ByteBuffer.allocate(bitmapToSave.getByteCount());
 //        bitmapToSave.copyPixelsToBuffer(buffer);
@@ -78,7 +85,7 @@ public class CacheHelper {
         return info;
     }
 
-    public static ImageInfo getCachedImageByUrl(String url) throws FileNotFoundException {
+    public ImageInfo getCachedImageByUrl(String url) throws FileNotFoundException {
         String fileName = urlToFilename(url);
         String fullPath = CACHE_BASE_DIR + fileName;
         if(!FileUtil.isFileOrDirExist(fullPath)) {
@@ -93,7 +100,7 @@ public class CacheHelper {
         return info;
     };
 
-    public static ImageInfo getCachedImageByFileName(String fileName) throws FileNotFoundException {
+    public ImageInfo getCachedImageByFileName(String fileName) throws FileNotFoundException {
         String fullPath = CACHE_BASE_DIR + fileName;
         if(!FileUtil.isFileOrDirExist(fullPath)) {
             return null;

@@ -5,11 +5,9 @@ import {primary} from '../Theme';
 import {SafeAreaView} from 'react-native';
 import {ScrollView} from 'react-native';
 import {getAlbumPosterUrl} from '../API/BasicRequest';
-import {GetComicDetail, GetComicChapter} from '../API/Comic';
-import {ListItem, Avatar} from 'react-native-elements';
+import {GetComicDetail} from '../API/Comic';
+import {ListItem} from 'react-native-elements';
 import {useNavigation} from '@react-navigation/native';
-import Icon from 'react-native-vector-icons/MaterialIcons';
-// import Icon from 'react-native-vector-icons/MaterialIcons';
 
 const globalStyle = StyleSheet.create({
   text: {

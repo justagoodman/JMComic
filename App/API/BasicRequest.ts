@@ -1,13 +1,13 @@
 import getTokenHeader from './encoder';
 import decode from './decoder';
-import {API_VERSION, BASE_CDN_YD_URL} from './APIConstant';
+import {API_VERSION, BASE_CDN_URL} from './APIConstant';
 
 export const getAlbumPosterUrl = (albumId: string): string => {
-  return `${BASE_CDN_YD_URL}/media/albums/${albumId}_3x4.jpg`;
+  return `${BASE_CDN_URL}/media/albums/${albumId}_3x4.jpg`;
 };
 
 export const getPhotoUrl = (albumId: string, photoId: string) => {
-  return `${BASE_CDN_YD_URL}/media/photos/${albumId}/${photoId}`;
+  return `${BASE_CDN_URL}/media/photos/${albumId}/${photoId}`;
 };
 
 export interface I_API {
@@ -24,6 +24,7 @@ export class API implements I_API {
 
   async GET(url: string, query?: object, config?: RequestInit): Promise<any> {
     let queryParams = '';
+    console.log('query', query);
     if (query) {
       queryParams += '?key=0b931a6f4b5ccc3f8d870839d07ae7b2';
       for (const key in query) {
@@ -32,6 +33,7 @@ export class API implements I_API {
       }
     }
     url += queryParams;
+    console.log(url);
     const headerToken = getTokenHeader() as {Tokenparam: string; Token: string};
     const staticConfig = {
       credentials: 'include',

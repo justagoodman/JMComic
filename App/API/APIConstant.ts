@@ -28,7 +28,7 @@ export enum API_ABILITY {
   API_BLOG_INFO = 'https://www.asjmapihost.cc/blog',
 }
 
-export const BASE_CDN_URL = 'https://cdn-msp.18comic1.one';
+export const BASE_CDN_URL = 'https://cdn-msp.18comic.art';
 export const BASE_CDN_YD_URL = 'https://yd.18comic.asia';
 
 export const API_VERSION = '1.1.0';

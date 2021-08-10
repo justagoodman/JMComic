@@ -5,9 +5,10 @@ Prerelease at Release Page
 
 # todo
 
-using okhttp to as http client
+- [x] using okhttp to as http client done
+- [ ] using thread pool to download image
+- [ ] UI
 
-UI
 
 # how to run
 
@@ -112,4 +113,12 @@ yarn install
 ## Third: start project
 ```
 yarn android
+```
+
+
+## Fouth: release
+```
+npm run fresco-clean
+cd android
+gradlew bundleRelease
 ```

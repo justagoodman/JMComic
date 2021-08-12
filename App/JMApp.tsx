@@ -8,6 +8,8 @@ import ExploreScreen from './Screens/ExploreScreen';
 import CategoriesScreen from './Screens/CategoriesScreen';
 import ComicDetailScreen from './Screens/ComicDetailScreen';
 import ComicReaderScreen from './Screens/ComicReaderScreen';
+import VideoScreen from './Screens/VideoScreen';
+import AnimeScreen from './Screens/AnimeScreen';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {PermissionsAndroid} from 'react-native';
 
@@ -40,6 +42,26 @@ function AllTabs() {
           ),
         }}
         component={CategoriesScreen}
+      />
+      <BottomTabNav.Screen
+        name="Video"
+        options={{
+          tabBarLabel: '小电影',
+          tabBarIcon: ({color}) => (
+            <Icon color={color} size={24} name="personal-video" />
+          ),
+        }}
+        component={VideoScreen}
+      />
+      <BottomTabNav.Screen
+        name="Anime"
+        options={{
+          tabBarLabel: '动漫',
+          tabBarIcon: ({color}) => (
+            <Icon color={color} size={24} name="video-collection" />
+          ),
+        }}
+        component={AnimeScreen}
       />
     </BottomTabNav.Navigator>
   );

@@ -1,5 +1,5 @@
 import {StyleSheet, StatusBar, View, Image} from 'react-native';
-import {Header, Text} from 'react-native-elements';
+import {Button, Header, Text} from 'react-native-elements';
 import * as React from 'react';
 import {primary} from '../Theme';
 import {SafeAreaView} from 'react-native';
@@ -8,6 +8,7 @@ import {getAlbumPosterUrl} from '../API/BasicRequest';
 import {GetComicDetail} from '../API/Comic';
 import {ListItem} from 'react-native-elements';
 import {useNavigation} from '@react-navigation/native';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 const globalStyle = StyleSheet.create({
   text: {
@@ -40,11 +41,12 @@ const globalStyle = StyleSheet.create({
 function ComicDetailScreen({route}) {
   const navigation = useNavigation();
   const {params} = route;
+  console.log(params);
   const posterUrl = getAlbumPosterUrl(params.id);
   console.log(posterUrl);
   const [chapters, setChapters] = React.useState([]);
   React.useEffect(() => {
-    GetComicDetail(params.id).then((detail) => {
+    GetComicDetail(params.id).then(detail => {
       console.log('detail', detail);
       let series = detail.series || [];
       if (series.length === 0) {
@@ -63,6 +65,15 @@ function ComicDetailScreen({route}) {
       name,
     });
   }
+  function renderLeftComponent({navigation}): React.ReactElement {
+    return (
+      <Button
+        onPress={() => {navigation.goBack()}}
+        buttonStyle={{alignSelf: 'center', padding: 0}}
+        icon={<Icon name="arrow-back" size={24} color="white" />}
+      />
+    );
+  }
   return (
     <SafeAreaView
       style={[globalStyle.container, {backgroundColor: primary.background}]}>
@@ -77,9 +88,11 @@ function ComicDetailScreen({route}) {
       <ScrollView>
         <Header
           style={globalStyle.header}
-          leftComponent={{icon: 'arrow-back', color: '#fff'}}
-          centerComponent={{text: 'MY TITLE', style: {color: '#fff'}}}
-          rightComponent={{icon: 'home', color: '#fff'}}
+          containerStyle={{alignItems: 'center'}}
+          leftComponent={renderLeftComponent({navigation})}
+          leftContainerStyle={{alignSelf: 'center'}}
+          centerContainerStyle={{display: 'flex', alignItems: 'center'}}
+          centerComponent={{text: params.name, style: {color: '#fff'}}}
         />
         <View style={globalStyle.content}>
           <View style={globalStyle.content__title}>

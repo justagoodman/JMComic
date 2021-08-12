@@ -5,7 +5,7 @@ import {SafeAreaView} from 'react-native';
 import {StatusBar} from 'react-native';
 import {primary} from '../Theme';
 import {Dimensions} from 'react-native';
-import {getRandomComic} from '../API/Comic';
+import {GetLatestComic, getRandomComic} from '../API/Comic';
 import {getAlbumPosterUrl} from '../API/BasicRequest';
 import {ScrollView} from 'react-native-gesture-handler';
 import {TouchableHighlight} from 'react-native';
@@ -114,35 +114,52 @@ interface ComicPosterProps {
   name: string;
 }
 
-function ComicBlock({navigator}): React.ReactElement {
+export function ComicBlock({navigator}): React.ReactElement {
   const [comics, setComics] = React.useState([]);
+  const [pageNo, setPageNo] = React.useState(0);
   React.useEffect(() => {
-    getRandomComic().then((items) => {
+    GetLatestComic(pageNo).then(items => {
       items.forEach((item: ComicPosterProps) => {
         item.image = getAlbumPosterUrl(item.id);
       });
       console.log(items);
-      const length = items.length - (items.length % 3);
-      setComics(items.slice(0, length));
+      setComics([...comics, ...items]);
     });
-  }, []);
+  }, [pageNo]);
+  function _onScroll(evt) {
+    console.log(evt);
+    const event = evt['nativeEvent'];
+
+    // 如果拖拽值超过底部50，且当前的scrollview高度大于屏幕高度，则加载更多
+    const _num = event['contentSize']['height'] - event['contentOffset']['y'];
+    const verlocity = event.velocity.y;
+
+    console.log(verlocity, _num);
+    if (verlocity && _num < 600) {
+      setPageNo(pageNo + 1);
+    }
+  }
   return (
-    <View style={styles.container}>
-      {comics.map((item: ComicPosterProps) => {
-        return (
-          <ComicListItem
-            {...item}
-            key={item.id}
-            style={styles.image}
-            posterUrl={item.image}
-            tag={item.category.title}
-            title={item.name}
-            id={item.id}
-            navigator={navigator}
-          />
-        );
-      })}
-    </View>
+    <SafeAreaView>
+      <ScrollView onScroll={_onScroll}>
+        <View style={styles.container}>
+          {comics.map((item: ComicPosterProps) => {
+            return (
+              <ComicListItem
+                {...item}
+                key={item.id}
+                style={styles.image}
+                posterUrl={item.image}
+                tag={item.category.title}
+                title={item.name}
+                id={item.id}
+                navigator={navigator}
+              />
+            );
+          })}
+        </View>
+      </ScrollView>
+    </SafeAreaView>
   );
 }
 
@@ -157,7 +174,7 @@ interface ComicListItemProps {
   author: string;
 }
 
-function ComicListItem(props: ComicListItemProps): React.ReactElement {
+export function ComicListItem(props: ComicListItemProps): React.ReactElement {
   const shouldShowTag = !!props.tag;
   const badge = (): React.ReactElement => {
     let tag;
@@ -178,7 +195,7 @@ function ComicListItem(props: ComicListItemProps): React.ReactElement {
       name: props.title,
       id: props.id,
       author: props.author,
-      description: props.description
+      description: props.description,
     });
   };
   const style = StyleSheet.create({

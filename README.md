@@ -6,6 +6,10 @@ Prerelease at Release Page
 # todo
 
 - [x] using okhttp to as http client done
+- [x] category screen
+- [ ] pull to load
+- [ ] Video screen
+- [ ] Anime screen
 - [ ] using thread pool to download image
 - [ ] UI
 
@@ -120,5 +124,8 @@ yarn android
 ```
 npm run fresco-clean
 cd android
+// if want to release apk
+/gradlew assembleRelease
+// if want to release aab
 gradlew bundleRelease
 ```

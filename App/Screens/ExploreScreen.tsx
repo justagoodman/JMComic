@@ -135,13 +135,13 @@ export function ComicBlock({navigator}): React.ReactElement {
     const verlocity = event.velocity.y;
 
     console.log(verlocity, _num);
-    if (verlocity && _num < 600) {
+    if (verlocity && _num < 800) {
       setPageNo(pageNo + 1);
     }
   }
   return (
     <SafeAreaView>
-      <ScrollView onScroll={_onScroll}>
+      <ScrollView onScrollEndDrag={_onScroll}>
         <View style={styles.container}>
           {comics.map((item: ComicPosterProps) => {
             return (

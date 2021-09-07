@@ -199,7 +199,7 @@ function CategoriesScreen(props): React.ReactElement {
     const verlocity = event.velocity.y;
 
     console.log(verlocity, _num);
-    if (verlocity && _num < 600) {
+    if (verlocity && _num < 800) {
       setPageNo(pageNo + 1);
     }
   }
@@ -243,7 +243,7 @@ function CategoriesScreen(props): React.ReactElement {
           />
         ))}
       </View>
-      <ScrollView onScroll={_onScroll}>
+      <ScrollView onScrollEndDrag={_onScroll}>
         <ComicBlock comics={comics} navigator={props.navigation} />
       </ScrollView>
     </SafeAreaView>

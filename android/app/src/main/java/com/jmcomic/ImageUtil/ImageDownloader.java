@@ -20,7 +20,7 @@ public class ImageDownloader {
             OkHttpClient client = new OkHttpClient.Builder().addInterceptor(new RetryInterceptor(5)).build();
 
             //获取请求对象
-            Request request = new Request.Builder().url(url).addHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.190 Safari/537.36").addHeader("referer", url).build();
+            Request request = new Request.Builder().url(url).addHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/93.0.4577.63 Safari/537.36").addHeader("referer", "https://18comic.vip/").build();
 
             //获取响应体
 

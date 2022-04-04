@@ -1,15 +1,19 @@
-import encrypt_key from './encrypt_key';
+import {
+    encodeKey
+} from './encoder';
 
 const CryptoJS = require('crypto-js');
 
-import { magic } from './encoder';
+import {
+    magic
+} from './encoder';
 
 export const salt = '18comicAPPContent';
 
 export default function decode(encrypted) {
     let data;
     try {
-        let key = encrypt_key(magic + salt);
+        let key = encodeKey(magic + salt);
         console.log(key);
         let vector = CryptoJS.enc.Utf8.parse(key);
         console.log(vector);
